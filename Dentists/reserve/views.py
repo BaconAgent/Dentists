@@ -8,4 +8,5 @@ from rest_framework.response import Response
 
 @api_view(["GET"])
 def get_hello(request):
-    return Response({"data": "hello world"})
+    response = "hello world"
+    return Response({"data": response})
