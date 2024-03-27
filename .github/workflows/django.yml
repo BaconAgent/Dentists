@@ -17,13 +17,12 @@ jobs:
     services:
       mysql:
         image: mysql:latest
-          env:
-            MYSQL_ROOT_PASSWORD: ${{secrets.db_password}}
-            MYSQL_DATABASE: dentists
-            MYSQL_USER: root
-          ports:
-            - 3306:3306
-          options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_DATABASE: your_database_name
+          MYSQL_USER: your_username
+          MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }} # Reference the secret
+
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
@@ -34,9 +33,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r Dentists/requirements.txt
+      - name: Run Database Migrations
+        run: |
+          python Dentists/manage.py migrate
       - name: Check Database Connectivity
         run: |
           python Dentists/manage.py check
       - name: Run Tests
         run: |
-          python Dentists/manage.py
+          python Dentists/manage.py test
