@@ -35,6 +35,7 @@ jobs:
           pip install -r Dentists/requirements.txt
       - name: Check Database Connectivity
         run: |
+          sudo /etc/init.d/mysql start
           python Dentists/manage.py check
       - name: Run Database Migrations
         run: |
