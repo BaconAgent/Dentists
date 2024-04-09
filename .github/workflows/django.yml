@@ -22,9 +22,6 @@ jobs:
           MYSQL_DATABASE: your_database_name
           MYSQL_USER: your_username
           MYSQL_PASSWORD: "asda" # Reference the secret
-          MYSQL_TCP_PORT: 3306
-        ports:
-          - 3306:3306
 
     steps:
       - uses: actions/checkout@v3
@@ -39,10 +36,7 @@ jobs:
       - name: Check Database Connectivity
         run: |
           sudo /etc/init.d/mysql start
-#          mysql -uroot -p ${{secrets.DB_PASSWORD}}
-#          GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY ${{ secrets.DB_PASSWORD }}
           python Dentists/manage.py check
-
       - name: Run Database Migrations
         run: |
           python Dentists/manage.py migrate
