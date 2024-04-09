@@ -39,7 +39,7 @@ jobs:
       - name: Check Database Connectivity
         run: |
           sudo /etc/init.d/mysql start
-          mysql -uroot -p 
+          mysql -uroot -p ${{ secrets.DB_PASSWORD}}
           GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY ${{ secrets.DB_PASSWORD }};
           python Dentists/manage.py check
 
