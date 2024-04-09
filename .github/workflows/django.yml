@@ -23,10 +23,10 @@ jobs:
           MYSQL_USER: your_username
           MYSQL_PASSWORD: "asda" # Reference the secret
           MYSQL_TCP_PORT: 3306
-            ports:
-              - 3306:3306
-            expose:
-              - 3306
+        ports:
+          - 3306:3306
+        expose:
+          - 3306
 
     steps:
       - uses: actions/checkout@v3
