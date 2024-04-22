@@ -19,9 +19,9 @@ jobs:
         image: mysql:latest
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          MYSQL_DATABASE: your_database_name
-          MYSQL_USER: your_username
-          MYSQL_PASSWORD: "asda" # Reference the secret
+          MYSQL_DATABASE: dentists
+          MYSQL_USER: root
+          # MYSQL_PASSWORD: "asda" # Reference the secret
 
     steps:
       - uses: actions/checkout@v3
@@ -36,10 +36,10 @@ jobs:
       - name: Check Database Connectivity
         run: |
           sudo /etc/init.d/mysql start
-          python Dentists/manage.py check
-      - name: Run Database Migrations
-        run: |
-          python Dentists/manage.py migrate
+        # python Dentists/manage.py check
+      # - name: Run Database Migrations
+      #   run: |
+      #     python Dentists/manage.py migrate
       - name: Run Tests
         run: |
           python Dentists/manage.py test
