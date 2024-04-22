@@ -14,14 +14,14 @@ jobs:
       matrix:
         python-version: [3.10.4]
 
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          MYSQL_DATABASE: dentists
-          MYSQL_USER: root
-          # MYSQL_PASSWORD: "asda" # Reference the secret
+    # services:
+    #   mysql:
+    #     image: mysql:latest
+    #     env:
+    #       MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+    #       MYSQL_DATABASE: dentists
+    #       MYSQL_USER: root
+    #       # MYSQL_PASSWORD: "asda" # Reference the secret
 
     steps:
       - uses: actions/checkout@v3
