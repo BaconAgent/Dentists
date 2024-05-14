@@ -42,4 +42,4 @@ jobs:
       #     python Dentists/manage.py migrate
       - name: Run Tests
         run: |
-          python DentistsBackend/manage.py test
+          python manage.py test
