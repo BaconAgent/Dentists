@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "reserve.apps.ReserveConfig",
     "login.apps.LoginConfig",
+    "api.apps.ApiConfig",
     "corsheaders",
 ]
 
@@ -54,6 +55,10 @@ MIDDLEWARE = [
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'DentistsBackend.urls'
+
+AUTH0_DOMAIN = 'dev-twctg5mxoooke8y4.eu.auth0.com'
+API_IDENTIFIER = 'https:/dentists-backend'
+
 
 TEMPLATES = [
     {
@@ -78,16 +83,16 @@ WSGI_APPLICATION = 'DentistsBackend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dentists',
-        'USER': 'root',
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'dentists',
+#         'USER': 'root',
+#         'PASSWORD': os.getenv('DB_PASSWORD'),
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
 
 
 # Password validation
