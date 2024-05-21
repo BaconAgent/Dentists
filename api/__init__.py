@@ -8,4 +8,4 @@ from api.auth_middleware import validate_token
 @validate_token
 def protected_endpoint(request):
     # This endpoint is protected and requires a valid access token
-    return JsonResponse({'message': 'Protected endpoint accessed successfully'})
+    return JsonResponse({"message": "Protected endpoint accessed successfully"})

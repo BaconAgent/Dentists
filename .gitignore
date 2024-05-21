@@ -1,0 +1,14 @@
+/DentistsBackend/.idea(backup)/
+/db.sqlite3
+/.idea/Dentists-backend.iml
+/.idea/developer-tools.xml
+/.idea/sonarlint/*
+/.idea/misc.xml
+/DentistsBackend/.idea/misc.xml
+/DentistsBackend/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/DentistsBackend/.idea/inspectionProfiles/profiles_settings.xml
+/DentistsBackend/.idea/inspectionProfiles/Project_Default.xml
+/.idea/vcs.xml
+/DentistsBackend/.idea/vcs.xml
+/DentistsBackend/.idea/workspace.xml

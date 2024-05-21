@@ -10,4 +10,4 @@ def protected_endpoint(request):
     # Access user information if needed
     user_id = request.user_id
     email = request.email
-    return JsonResponse({'message': 'Protected endpoint accessed successfully'})
+    return JsonResponse({"message": "Protected endpoint accessed successfully"})
