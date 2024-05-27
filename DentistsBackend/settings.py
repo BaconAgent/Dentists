@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 import requests
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,8 +47,13 @@ INSTALLED_APPS = [
     "clinic.apps.ClinicConfig",
     "user.apps.UserConfig",
     "corsheaders",
+    "social_django",
+    "rest_framework",
 ]
-
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.auth0.Auth0OAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -59,20 +65,61 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 CORS_ORIGIN_ALLOW_ALL = True
+
 ROOT_URLCONF = "DentistsBackend.urls"
 
-AUTH0_DOMAIN = "dev-twctg5mxoooke8y4.eu.auth0.com"
-API_IDENTIFIER = "https:/dentists-backend"
-PUBLIC_KEY = None
-JWT_ISSUER = None
 
-if AUTH0_DOMAIN and API_IDENTIFIER:
-    JWT_ISSUER = f'https://{AUTH0_DOMAIN}/'
-    JSONWEBKEY_URL = f'https://{AUTH0_DOMAIN}/.well-known/jwks.json'
+AUTH0_DOMAIN = "dev-twctg5mxoooke8y4.eu.auth0.com"
+
+API_IDENTIFIER = "https:/dentists-backend"
+
+CLIENT_ID = "vZyAmgrtmo7G5bplqYjXCIwsimVNCXxc"
+
+CLIENT_SECRET = "gIykdrKxZsemeY7T2gVgkar_WZkJBArxfkzBEVd4nR-6-vwDGejzSdHA3IOYpnON"
+
+PUBLIC_KEY = None
+
+JWT_ISSUER = f'https://{AUTH0_DOMAIN}/'
+
+JSONWEBKEY_URL = f'https://{AUTH0_DOMAIN}/.well-known/jwks.json'
+
+try:
     response = requests.get(JSONWEBKEY_URL)
+    response.raise_for_status()
     jwks = response.json()
     PUBLIC_KEY = jwks['keys'][0]['x5c'][0]
+except requests.RequestException as e:
+    raise ImproperlyConfigured(f"Could not retrieve JWKS keys: {e}")
 
+SOCIAL_AUTH_TRAILING_SLASH = False
+
+SOCIAL_AUTH_AUTH0_KEY = CLIENT_ID
+
+SOCIAL_AUTH_AUTH0_SECRET = CLIENT_SECRET
+
+SOCIAL_AUTH_AUTH0_DOMAIN = AUTH0_DOMAIN
+
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+
+AUTH_USER_MODEL = "user.User"
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+    'user.views.save_profile',
+)
 
 TEMPLATES = [
     {
@@ -85,6 +132,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect"
             ],
         },
     },
@@ -97,22 +146,22 @@ WSGI_APPLICATION = "DentistsBackend.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dentists',
-        'USER': 'root',
-        'PASSWORD': "test", #os.getenv('DB_PASSWORD') ,
-        'HOST': 'localhost',
-        'PORT': '3306',
-    },
-    "test": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "tests",
-        "USER": "root",
-        "PASSWORD": "test",
-        "HOST": "localhost",
-        "PORT": "3306",
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'dentists',
+    #     'USER': 'root',
+    #     'PASSWORD': "test", #os.getenv('DB_PASSWORD') ,
+    #     'HOST': 'localhost',
+    #     'PORT': '3306',
+    # },
+    # "test": {
+    #     "ENGINE": "django.db.backends.mysql",
+    #     "NAME": "tests",
+    #     "USER": "root",
+    #     "PASSWORD": "test",
+    #     "HOST": "localhost",
+    #     "PORT": "3306",
+    # }
 }
 
 

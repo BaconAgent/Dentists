@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dentists-backend-ingress
+  namespace: dentists
+spec:
+  rules:
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: dentists-backend-ingress
+              port:
+                number: 80
