@@ -146,22 +146,22 @@ WSGI_APPLICATION = "DentistsBackend.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'dentists',
-    #     'USER': 'root',
-    #     'PASSWORD': "test", #os.getenv('DB_PASSWORD') ,
-    #     'HOST': 'localhost',
-    #     'PORT': '3306',
-    # },
-    # "test": {
-    #     "ENGINE": "django.db.backends.mysql",
-    #     "NAME": "tests",
-    #     "USER": "root",
-    #     "PASSWORD": "test",
-    #     "HOST": "localhost",
-    #     "PORT": "3306",
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dentists',
+        'USER': 'root',
+        'PASSWORD': "test", #os.getenv('DB_PASSWORD') ,
+        'HOST': 'localhost',
+        'PORT': '3306',
+    },
+    "test": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "tests",
+        "USER": "root",
+        "PASSWORD": "test",
+        "HOST": "localhost",
+        "PORT": "3306",
+    }
 }
 
 

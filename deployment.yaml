@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dentists-backend  # Replace with your desired deployment name
+spec:
+  replicas: 2  # Number of replicas (i.e., instances) of the Django pod
+  selector:
+    matchLabels:
+      app: dentists-backend
+  template:
+    metadata:
+      labels:
+        app: dentists-backend
+    spec:
+      containers:
+      - name: dentists-backend
+        image: baconagent/backend:latest
+        ports:
+        - containerPort: 8000
