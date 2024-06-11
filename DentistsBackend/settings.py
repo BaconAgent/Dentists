@@ -50,10 +50,10 @@ INSTALLED_APPS = [
     "social_django",
     "rest_framework",
 ]
-AUTHENTICATION_BACKENDS = (
-    'social_core.backends.auth0.Auth0OAuth2',
+AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-)
+    'django.contrib.auth.backends.RemoteUserBackend',
+]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -63,6 +63,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.auth.middleware.RemoteUserMiddleware",
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -101,12 +103,26 @@ SOCIAL_AUTH_AUTH0_DOMAIN = AUTH0_DOMAIN
 
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
 
-AUTH_USER_MODEL = "user.User"
-
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+JWT_AUTH = {
+    'JWT_PAYLOAD_GET_USERNAME_HANDLER':
+        'appointments.utils.jwt_get_username_from_payload_handler',
+    'JWT_DECODE_HANDLER':
+        'appointments.utils.jwt_decode_token',
+    'JWT_ALGORITHM': 'RS256',
+    'JWT_AUDIENCE': 'https:/dentists-backend',
+    'JWT_ISSUER': 'https://dev-twctg5mxoooke8y4.eu.auth0.com/',
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 }
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
